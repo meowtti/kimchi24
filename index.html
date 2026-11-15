@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>김치사이트 체험관</title>
+<link rel="icon" id="fav" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231d3a78'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='40' font-weight='900' fill='%23fff' font-family='Malgun Gothic,Apple SD Gothic Neo,sans-serif'%3E%EA%B9%80%3C/text%3E%3C/svg%3E">
 <meta name="description" content="가상의 민원 포털 「김치24」에서 반려여우 등록 신청서를 내 보는 패러디 놀이. 실제 기관과 관계없음.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="김치사이트 체험관 — 가상 민원 포털 패러디">
@@ -710,7 +711,10 @@ async function voice(id){if(!SND.on||!SND.started||!VOICE_LIST.includes(id))retu
   const s=ac.createBufferSource();s.buffer=b;s.connect(ac.destination);
   if(SND.gain){const t=ac.currentTime,G=SND.gain.gain;G.cancelScheduledValues(t);G.setValueAtTime(G.value,t);G.linearRampToValueAtTime(.35,t+.2);G.setValueAtTime(.35,t+b.duration);G.linearRampToValueAtTime(1,t+b.duration+.6)}
   s.start()}
-function foxHead(cv,f){if(!cv)return;drawFox(FOXC,f);const g=cv.getContext("2d");g.clearRect(0,0,cv.width,cv.height);g.drawImage(FOXC,112,40,216,216,0,0,cv.width,cv.height)}
+/* 탭 아이콘 — 처음엔 머리의 「김」. 시로 정체가 드러나면(김치봇 탈 · 3번 창구 소장 · S.fox) 펫캠과 같은 얼굴을 「김」과 같은 남색 네모에 꽉 차게 그린다(16px에서도 보이게 · foxHead가 FOXC를 막 그린 직후에 부름). 다시하기(S=fresh())면 「김」으로 */
+const FAVL=$("#fav"),FAV0=FAVL.getAttribute("href"),FAVC=document.createElement("canvas");FAVC.width=FAVC.height=64;
+function fav(){if(!S.fox){if(FAVL.getAttribute("href")!==FAV0)FAVL.setAttribute("href",FAV0);return}const g=FAVC.getContext("2d");g.clearRect(0,0,64,64);g.fillStyle="#1d3a78";g.beginPath();g.roundRect?g.roundRect(0,0,64,64,12):g.rect(0,0,64,64);g.fill();g.drawImage(FOXC,128,68,184,184,0,0,64,64);FAVL.setAttribute("href",FAVC.toDataURL())}
+function foxHead(cv,f){if(!cv)return;drawFox(FOXC,f);const g=cv.getContext("2d");g.clearRect(0,0,cv.width,cv.height);g.drawImage(FOXC,112,40,216,216,0,0,cv.width,cv.height);if(cv.id==="petc")fav()}
 function chibiURL(){return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(chibiSvg(CHIBI.shiro,"#dfe6f2"))}
 const PET_FACE={home:"norm",check:"norm",install:"sweat",popups:"sweat",queue:"norm",login:"smug",agree:"sweat",verify:"sweat",form:"norm",attach:"norm",submit:"sweat",done:"cry",fax:"sweat",visit:"norm",objection:"smug"};
 let petT=0,petSayT=0;
@@ -753,7 +757,7 @@ const PET_STAGE={
 function botPoke(){botOpen=!botOpen;if(!S.unmask){S.poke=(S.poke||0)+1;
     if(S.poke===3)return bot("김치봇은 사람이 아닙니다. <b>여우도 아닙니다.</b>");
     if(S.poke===5)return bot("…김치봇은 김치봇입니다. 그만 누르세요.");
-    if(S.poke>=7){S.unmask=true;botOpen=false;ach("botmask");voice("unmask");bot();return petSay("smug","들켰네. <b>김치봇 퇴근합니다~</b> 김치봇 속엔 이 여우님이 있었어. 앞으로 김치봇 말은 믿지 마.",5600,true)}}
+    if(S.poke>=7){S.unmask=true;S.fox=true;botOpen=false;ach("botmask");voice("unmask");bot();return petSay("smug","들켰네. <b>김치봇 퇴근합니다~</b> 김치봇 속엔 이 여우님이 있었어. 앞으로 김치봇 말은 믿지 마.",5600,true)}}
   bot()}
 /* 여우 캡차 — 「여우가 있는 칸을 모두」 → 아홉 칸이 다 시로 */
 function foxCaptcha(next){const p=document.createElement("div");p.className="dim";site.appendChild(p);let fails=0;const faces=["norm","smug","sweat","cry","joy"];
@@ -1172,7 +1176,7 @@ ST.visit=()=>{crumb("주민센터");url("minwon/visit.do");ach("visit");
         me.innerHTML=pic(x,146+b,"#e8772e",i%2?"w1":"w2");sfxv("click",.35);tud.textContent="터덕";tud.setAttribute("x",x+10);
         if(i===7){$("#bd").textContent=mine+1;ach("skipnum");sfx("dingdong");$("#vmsg").innerHTML="<b class='warn'>딩동— 「119번 고객님」</b> …어? 아직 가는 중인데?";petSay("sweat","방금 불렀잖아! 뛰어, 뛰어!",2600)}
         if(i>=N){clearInterval(st);me.innerHTML=pic(ME1,146,"#e8772e","stand");tud.textContent="";setTimeout(()=>{if($("#me"))window3()},700)}},480)}
-    function window3(){
+    function window3(){S.fox=true;petReact("smug",3000);
       toast(`<img src="${chibiURL()}" alt="" style="float:left;width:64px;height:64px;margin:0 8px 4px 0;border-radius:6px">[3번 창구 · 시로 소장] 동물등록은 여기서 안 해, <b>구청</b> 가 봐. 그렇게 울상 짓지 마, 길은 이 여우가 알려 줄게.`,"구청으로 가기",()=>
         toast("[구청 동물보호과] 칩이 없으면 등록이 안 돼요. 등록 대행 <b>동물병원</b>에서 먼저 하고 오세요.","동물병원으로 가기",()=>
           toast("[동물병원] 여우는 등록 대상 동물이 아니에요.<br>자세한 건 <b>김치24</b>에서 확인해 보세요.","김치24로 가기",()=>{ach("online");go("done")})))}
