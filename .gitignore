@@ -1,0 +1,22 @@
+# 허락 목록 — 아래 ! 줄에 적은 것만 저장소에 들어간다(새 폴더 · 파일은 한 줄 열어야 들어감)
+/*
+!/.gitignore
+!/.gitattributes
+!/.gitleaks.toml
+!/.nojekyll
+!/.pre-commit-config.yaml
+!/README.md
+!/index.html
+!/img/
+!/bgm/
+!/sfx/
+
+# 어디에 있든 막는 것
+.DS_Store
+Thumbs.db
+desktop.ini
+*.zip
+*.7z
+*.rar
+.env
+.env.*

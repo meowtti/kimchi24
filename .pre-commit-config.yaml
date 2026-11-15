@@ -1,0 +1,16 @@
+# 커밋 직전 검사 — 놀이터 저장소(meowtti.github.io)의 검사기를 같이 쓴다(규칙은 그쪽 한 곳).
+# 두 저장소를 같은 폴더에 나란히 둔다: ../meowtti.github.io
+# 켜기(한 번): ..\meowtti.github.io\.venv\Scripts\pre-commit.exe install
+repos:
+  - repo: local
+    hooks:
+      - id: guard
+        name: guard — 올리면 안 되는 꼴 · 크기 · 사진 EXIF · 내 PC 경로 · 비공개 금지어 (놀이터 검사기)
+        entry: ..\\meowtti.github.io\\.venv\\Scripts\\python.exe ../meowtti.github.io/checks/guard.py
+        language: system
+      - id: gitleaks
+        name: gitleaks — 열쇠 · 비밀번호 무늬 (값은 가림)
+        entry: gitleaks git --pre-commit --staged --redact --no-banner --log-level warn -v .
+        language: system
+        pass_filenames: false
+        always_run: true

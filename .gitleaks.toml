@@ -1,0 +1,8 @@
+# gitleaks 기본 규칙 + 이 놀이에서 비밀이 아닌 것 하나만 허락
+# kimchi24-record-v1 = 놀이가 브라우저(localStorage)에 도장 기록을 저장하는 이름표 — 열쇠 무늬로 잘못 잡힘(2026-11-15)
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "놀이 저장 이름표(비밀 아님)"
+regexes = ['''kimchi24-record-v1''']
